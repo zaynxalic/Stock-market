@@ -1,0 +1,25 @@
+{
+    // "env": {
+        // "myDefaultIncludePath": ["${workspaceFolder}", "${workspaceFolder}/include"],
+        // "myCompilerPath": "/usr/bin/clang"
+    // },
+    "configurations": [
+        {
+            // "myDefaultIncludePath": ["${workspaceFolder}", "${workspaceFolder}/include"],
+            "name": "Mac",
+            "includePath": [
+                "${workspaceFolder}/**",
+                "/opt/homebrew/Cellar/boost/1.81.0_1/**"
+            ],
+            "defines": [],
+            "macFrameworkPath": [
+                "/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks"
+            ],
+            "compilerPath": "/usr/bin/clang",
+            "cStandard": "c11",
+            "cppStandard": "c++11",
+            "intelliSenseMode": "macos-clang-arm64"
+        }
+    ],
+    "version": 4
+}
