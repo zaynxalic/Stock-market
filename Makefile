@@ -1,24 +1,23 @@
 CC = g++
 
-CFLAGS = -Werror\
+CFLAGS = -Wall\
 		-std=c++11\
 		-stdlib=libc++\
 		-g\
 	 	-I/opt/homebrew/Cellar/boost/1.81.0_1/include\
-		-D_WEBSOCKETPP_CPP11_STL_\
-		-L/opt/homebrew/opt/openssl@3/lib\
 		-I/opt/homebrew/opt/openssl@3/include\
+		-D_WEBSOCKETPP_CPP11_STL_\
 		-O3
 
-		
-#-Werror\
-#-L/opt/homebrew/Cellar/boost/1.81.0_1/lib
-# -lboost_system~\
-# -lboost_thread-mt\
-# -L/opt/homebrew/Cellar/boost/1.81.0_1/lib\
-		# -lboost_system\
-		# -lboost_thread-mt\
+FINAL_FLAGS = $(CFLAGS)
 
+FINAL_FLAGS += -lboost_thread-mt\
+			-lboost_system-mt\
+			-L/opt/homebrew/opt/openssl@3/lib\
+			-L/opt/homebrew/Cellar/boost/1.81.0_1/lib\
+			-lcrypto\
+			-lssl
+			
 SRCS =\
 	network/connection_metadata.cpp\
 	network/websocket_endpoint.cpp\
@@ -35,7 +34,7 @@ build:
 	make all
 
 $(EXEC): $(OBJS)
-	$(CC) $(CFLAGS) -o $(EXEC) $(OBJS)
+	$(CC) $(FINAL_FLAGS) -o $(EXEC) $(OBJS)
 
 %.o: %.cpp
 	$(CC) $(CFLAGS) -c $< -o $@

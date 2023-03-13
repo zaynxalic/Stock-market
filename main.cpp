@@ -39,6 +39,19 @@ int main() {
             endpoint.send(id, message);
                 
         } 
+        else if (input.substr(0,5) == "close") {
+            std::stringstream ss(input);
+            
+            std::string cmd;
+            int id;
+            int close_code = websocketpp::close::status::normal;
+            std::string reason;
+            
+            ss >> cmd >> id >> close_code;
+            std::getline(ss,reason);
+            
+            endpoint.close(id, close_code, reason);
+        }
         else if (input.substr(0,4) == "show") {
             int id = atoi(input.substr(5).c_str());
  

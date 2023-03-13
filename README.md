@@ -1,2 +1,1 @@
-brew install
-brew install openssl
+brew install 

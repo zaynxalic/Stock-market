@@ -1,15 +1,15 @@
 #ifndef WEBSOCKET_ENDPOINT_H
 #define WEBSOCKET_ENDPOINT_H
 #include "connection_metadata.h"
-
+#include <openssl/tls1.h>
 class websocket_endpoint {
 
 // m_endpoint is the client object.
 public:
 
     websocket_endpoint () : m_next_id(0) {
-        m_endpoint.clear_access_channels(websocketpp::log::alevel::all);
-        m_endpoint.clear_error_channels(websocketpp::log::elevel::all);
+        // m_endpoint.clear_access_channels(websocketpp::log::alevel::all);
+        // m_endpoint.clear_error_channels(websocketpp::log::elevel::all);
         m_endpoint.init_asio();
         m_endpoint.start_perpetual();
         m_thread.reset(new websocketpp::lib::thread(&client::run, &m_endpoint));
@@ -18,6 +18,8 @@ public:
     int connect(std::string const & uri);
  
     connection_metadata::ptr get_metadata(int id) const;
+
+    void close (int id, websocketpp::close::status::value code, std::string reason);
 
     void send (int id, std::string message);
 

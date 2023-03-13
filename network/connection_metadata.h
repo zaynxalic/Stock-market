@@ -1,22 +1,21 @@
 #ifndef CONNECTION_METADATA_H
 #define CONNECTION_METADATA_H
 
-// #include <websocketpp/config/asio_no_tls_client.hpp>
+
+//#include <websocketpp/config/asio_no_tls_client.hpp>
 #include <websocketpp/config/asio_client.hpp>
 #include <websocketpp/client.hpp>
 #include <websocketpp/common/thread.hpp>
 #include <websocketpp/common/memory.hpp>
- 
 #include <cstdlib>
 #include <iostream>
 #include <map>
 #include <string>
 #include <sstream>
- 
 
-typedef websocketpp::client<websocketpp::config::asio_client> client;
+typedef websocketpp::client<websocketpp::config::asio_tls_client> client;
 // enabled for tls init handler. Referenced from https://groups.google.com/g/websocketpp/c/SimAUzwZUVM
-typedef websocketpp::lib::shared_ptr<boost::asio::ssl::context> context_ptr;
+typedef websocketpp::lib::shared_ptr<boost::asio::ssl::context> contextptr;
 /*
     This class is used to store the metadata of a connection. It is used to store the connection
 */
@@ -68,6 +67,12 @@ class connection_metadata {
 
         void record_sent_message(std::string message);
         
+        bool verify_certificate(const char * hostname, bool preverified, boost::asio::ssl::verify_context& ctx);
+
+        bool verify_subject_alternative_name(const char * hostname, X509 * cert);
+
+        bool verify_common_name(char const * hostname, X509 * cert);
+
         static contextptr on_tls_init(websocketpp::connection_hdl hdl);
 
         friend std::ostream& operator<< (std::ostream& out, const connection_metadata& data);
